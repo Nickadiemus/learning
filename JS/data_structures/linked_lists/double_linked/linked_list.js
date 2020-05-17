@@ -2,6 +2,7 @@ class Node {
     constructor(value) {
         this.value = value
         this.next = null
+        this.previous = null
     }
 
 }
@@ -26,6 +27,7 @@ class LinkedList {
         }
         else {
             this.tail.next = newNode
+            this.tail.next.previous = this.tail
             this.tail = newNode
         }
         this.length++
@@ -40,26 +42,14 @@ class LinkedList {
         if (this.length === 1) {
             this.head = null
             this.tail = null
-            this.length--
         } else {
-
-            let currentNode = this.head
-            let previousNode
-            while (currentNode) {
-                // finds second to last node
-                if (currentNode.next === this.tail) {
-                    previousNode = currentNode
-                    break
-                }
-                currentNode = currentNode.next
-            }
-            previousNode.next = null
-            this.tail = previousNode
-            this.length--
-            return currentNode.next
-
+            this.tail = this.tail.previous
+            this.tail.next = null
         }
+        this.length--
     }
+
+    //insert(index, value)
 
     get(index) {
         // check if out of bounds
@@ -119,6 +109,7 @@ class LinkedList {
                 currentNode = currentNode.next
             }
             prevNode.next = currentNode.next
+            currentNode.next.previous = prevNode
             this.length--
         }
     }
@@ -137,25 +128,3 @@ class LinkedList {
     }
 
 }
-
-ll = new LinkedList()
-
-ll.push(1)
-ll.prettyPrint()
-ll.push(2)
-ll.prettyPrint()
-ll.push(3)
-ll.prettyPrint()
-ll.push(4)
-ll.prettyPrint()
-ll.push(5)
-ll.prettyPrint()
-ll.pop()
-ll.prettyPrint()
-ll.delete(2)
-ll.prettyPrint()
-console.log(ll.delete(9))
-console.log(ll.delete(-19))
-console.log(ll.get(-19))
-console.log(ll.get(1))
-console.log(ll.get(2))
